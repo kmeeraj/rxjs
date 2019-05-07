@@ -19,12 +19,14 @@ import {HttpClientModule} from '@angular/common/http';
 import {MatTableModule} from '@angular/material/typings/table';
 import {MatDialogModule} from '@angular/material/typings/dialog';
 import {ReactiveFormsModule} from '@angular/forms';
+import { CoursesCardListComponent } from './courses-card-list/courses-card-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    AboutComponent
+    AboutComponent,
+    CoursesCardListComponent
   ],
   imports: [
     BrowserModule,
