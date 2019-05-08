@@ -1,13 +1,12 @@
 import {Observable} from 'rxjs';
 
-
 export function createObservable() {
-  return Observable.create( observer => {
+  return Observable.create(observer => {
     fetch('api/courses')
       .then((response) => {
         return response.json();
       })
-      .then( body => {
+      .then(body => {
         observer.next(body);
         observer.complete();
       })
