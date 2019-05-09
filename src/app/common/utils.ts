@@ -15,6 +15,6 @@ export function createObservable(url: string) {
       .catch(err => {
         observer.error(err);
       });
-    // return () => controller.abort();
+    return () => controller.abort();
   });
 }
