@@ -20,6 +20,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import { CoursesCardListComponent } from './courses-card-list/courses-card-list.component';
 import { CourseDialogComponent } from './course-dialog/course-dialog.component';
 import {MatMomentDateModule} from '@angular/material-moment-adapter';
+import { CourseComponent } from './course/course.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import {MatMomentDateModule} from '@angular/material-moment-adapter';
     HomeComponent,
     AboutComponent,
     CoursesCardListComponent,
-    CourseDialogComponent
+    CourseDialogComponent,
+    CourseComponent
   ],
   imports: [
     BrowserModule,
