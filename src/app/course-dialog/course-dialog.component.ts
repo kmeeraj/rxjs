@@ -1,17 +1,18 @@
-import {Component, ElementRef, Inject, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Inject, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validator, Validators} from '@angular/forms';
 import {Course} from '../model/course';
 import * as moment from 'moment';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {concatMap, filter, mergeMap} from 'rxjs/operators';
+import {concatMap, exhaustMap, filter, mergeMap} from 'rxjs/operators';
 import {fromPromise} from 'rxjs/internal-compatibility';
+import {fromEvent} from 'rxjs';
 
 @Component({
   selector: 'app-course-dialog',
   templateUrl: './course-dialog.component.html',
   styleUrls: ['./course-dialog.component.scss']
 })
-export class CourseDialogComponent implements OnInit {
+export class CourseDialogComponent implements OnInit, AfterViewInit {
 
   form: FormGroup;
   course: Course;
@@ -36,7 +37,7 @@ export class CourseDialogComponent implements OnInit {
   ngOnInit() {
     this.form.valueChanges
       .pipe(filter(() => this.form.valid),
-        mergeMap(changes => this.saveCourses(changes)))
+        concatMap(changes => this.saveCourses(changes)))
       .subscribe(
         // changes => this.saveCourses(changes)
       );
@@ -50,5 +51,16 @@ export class CourseDialogComponent implements OnInit {
         'content-type': 'application/json'
       }
     }));
+  }
+
+  save() {
+
+  }
+
+  ngAfterViewInit(): void {
+    fromEvent(this.saveButton.nativeElement, 'click')
+      .pipe(
+        exhaustMap(() => this.saveCourses(this.form.value))
+      ).subscribe();
   }
 }
