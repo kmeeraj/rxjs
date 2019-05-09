@@ -7,7 +7,7 @@ import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
 import {
   MatButtonModule, MatCardModule,
-  MatDatepickerModule, MatIconModule,
+  MatDatepickerModule, MatDialogModule, MatIconModule,
   MatInputModule, MatListModule, MatMenuModule,
   MatPaginatorModule,
   MatProgressSpinnerModule,
@@ -16,17 +16,18 @@ import {
 } from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HttpClientModule} from '@angular/common/http';
-import {MatTableModule} from '@angular/material/typings/table';
-import {MatDialogModule} from '@angular/material/typings/dialog';
 import {ReactiveFormsModule} from '@angular/forms';
 import { CoursesCardListComponent } from './courses-card-list/courses-card-list.component';
+import { CourseDialogComponent } from './course-dialog/course-dialog.component';
+import {MatMomentDateModule} from '@angular/material-moment-adapter';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     AboutComponent,
-    CoursesCardListComponent
+    CoursesCardListComponent,
+    CourseDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -44,10 +45,15 @@ import { CoursesCardListComponent } from './courses-card-list/courses-card-list.
     MatPaginatorModule,
     MatSortModule,
     MatProgressSpinnerModule,
+    MatDialogModule,
     AppRoutingModule,
-
+    MatSelectModule,
+    MatDatepickerModule,
+    MatMomentDateModule,
+    ReactiveFormsModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [CourseDialogComponent]
 })
 export class AppModule { }
