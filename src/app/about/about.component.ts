@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {concat, interval, merge, noop, Observable, of} from 'rxjs';
+import {AsyncSubject, BehaviorSubject, concat, interval, merge, noop, Observable, of, ReplaySubject, Subject} from 'rxjs';
 import {createObservable} from '../common/utils';
 import {map} from 'rxjs/operators';
+import {fromPromise} from 'rxjs/internal-compatibility';
 
 @Component({
   selector: 'app-about',
@@ -13,14 +14,28 @@ export class AboutComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    // const subject = new Subject();
+    // const subject = new AsyncSubject();
+    const subject = new ReplaySubject();
+    // const subject = new BehaviorSubject(0);
+    const series$ = subject.asObservable();
 
-    // const interval1$ = interval(1000);
-    // const sub = interval1$.subscribe(console.log);
-    // setTimeout(() => sub.unsubscribe(), 5000);
+    // series.subscribe(console.log);
+    series$.subscribe(val => console.log('first subscription: ' + val));
 
-    const http$ = createObservable('api/courses');
-    const sub = http$.subscribe(console.log);
-    setTimeout(() => sub.unsubscribe(), 0);
+    subject.next(1);
+    subject.next(2);
+    subject.next(3);
+    // subject.complete();
+    /*setTimeout(() => {
+      series$.subscribe(val => console.log('late subscription : ' + val));
+      subject.next(4);
+    }, 3000);*/
+
+    setTimeout(() => {
+      series$.subscribe(val => console.log('second subscription : ' + val));
+      subject.next(4);
+    }, 3000);
   }
 
 }
