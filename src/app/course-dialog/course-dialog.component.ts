@@ -6,6 +6,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {concatMap, exhaustMap, filter, mergeMap} from 'rxjs/operators';
 import {fromPromise} from 'rxjs/internal-compatibility';
 import {fromEvent} from 'rxjs';
+import {Store} from '../common/store.service';
 
 @Component({
   selector: 'app-course-dialog',
@@ -23,7 +24,8 @@ export class CourseDialogComponent implements OnInit, AfterViewInit {
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<CourseDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) course: Course
+    @Inject(MAT_DIALOG_DATA) course: Course,
+    private store: Store
   ) {
     this.course = course;
     this.form = fb.group({
@@ -54,7 +56,11 @@ export class CourseDialogComponent implements OnInit, AfterViewInit {
   }
 
   save() {
-
+    this.store.saveCourse(this.course.id, this.form.value)
+      .subscribe(
+        () => this.close(),
+        err => console.log("error log",err)
+      );
   }
 
   ngAfterViewInit(): void {
@@ -62,5 +68,9 @@ export class CourseDialogComponent implements OnInit, AfterViewInit {
       .pipe(
         exhaustMap(() => this.saveCourses(this.form.value))
       ).subscribe();
+  }
+
+  private close() {
+    this.dialogRef.close();
   }
 }
